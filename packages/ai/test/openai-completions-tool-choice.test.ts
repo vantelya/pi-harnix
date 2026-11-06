@@ -1243,7 +1243,12 @@ describe("openai-completions tool_choice", () => {
 	});
 
 	it("stores Qwen Token Plan reasoning replay compat in built-in metadata", () => {
-		const providers = ["qwen-token-plan", "qwen-token-plan-cn", "qwen-token-plan-individual"] as const;
+		const providers = [
+			"qwen-token-plan",
+			"qwen-token-plan-cn",
+			"qwen-token-plan-individual",
+			"qwen-token-plan-individual-cn",
+		] as const;
 
 		for (const provider of providers) {
 			const model = getModel(provider, "qwen3.7-max")!;
@@ -1405,6 +1410,7 @@ describe("openai-completions tool_choice", () => {
 				maxTokensField: "max_completion_tokens",
 				requiresToolResultName: false,
 				requiresAssistantAfterToolResult: false,
+				requiresNonNullAssistantContent: false,
 				requiresThinkingAsText: false,
 				requiresReasoningContentOnAssistantMessages: false,
 				thinkingFormat: "openai",
@@ -1761,7 +1767,7 @@ describe("openai-completions tool_choice", () => {
 	});
 
 	it("uses OpenRouter reasoning object instead of reasoning_effort", async () => {
-		const model = getModel("openrouter", "deepseek/deepseek-r1")!;
+		const model = getModel("openrouter", "deepseek/deepseek-r1-0528")!;
 		let payload: unknown;
 
 		await streamSimple(
